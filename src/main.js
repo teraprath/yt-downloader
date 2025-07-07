@@ -9,20 +9,20 @@ let url = args[1];
 
 // Remove accidental escape characters (e.g. \? or \= from shell)
 if (url) {
-  url = url.replace(/\\/g, "");  // removes all backslashes
+  url = url.replace(/\\/g, "");
 }
 
 (async () => {
   try {
     if (!command || !url) {
-      console.log("⚠️  Missing CLI arguments.\n");
+      console.log("⚠️  Missing arguments.\n");
       console.log("Usage:");
       console.log("  ytd audio <YouTube URL>   # Download as MP3");
       console.log("  ytd video <YouTube URL>   # Download as MP4");
       return;
     }
 
-    console.log("🔗 URL:", chalk.cyan(url));
+    console.log("🔗 URL:", chalk.blue(url));
 
     if (command === "audio") {
       await getAudio(url);

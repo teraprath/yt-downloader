@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const { Audio, Video } = require("yt-converter");
 const { createProgressBar } = require("./progress");
+const { sanitizeFileName } = require("./utils");
 const chalk = require("chalk");
 
 // The system's default Downloads folder
@@ -32,6 +33,7 @@ function getMediaFiles(dir) {
 /**
  * Moves all valid media files (.mp3, .mp4) from the TEMP_DIR
  * to the system's Downloads directory.
+ * Applies filename sanitization before moving.
  */
 function moveMediaFiles() {
   const mediaFiles = getMediaFiles(TEMP_DIR);
@@ -41,14 +43,18 @@ function moveMediaFiles() {
   }
 
   mediaFiles.forEach((file) => {
+    const ext = path.extname(file);
+    const base = path.basename(file, ext);
+    const sanitized = sanitizeFileName(base) + ext;
+
     const srcPath = path.join(TEMP_DIR, file);
-    const destPath = path.join(DOWNLOAD_DIR, file);
+    const destPath = path.join(DOWNLOAD_DIR, sanitized);
 
     try {
       fs.renameSync(srcPath, destPath);
-      console.log(`✅ Moved: ${chalk.green(file)} → Downloads`);
+      console.log(`📄 File: ${chalk.gray(sanitized)}`);
     } catch (err) {
-      console.error(`❌ Failed to move ${chalk.redBright(file)}:`, err.message);
+      console.error(`❌ Failed to move ${chalk.red(sanitized)}:`, err.message);
     }
   });
 }
@@ -58,7 +64,7 @@ function moveMediaFiles() {
  * Shows a progress bar during the download process.
  */
 async function getAudio(url) {
-  console.log("🎵 Downloading audio...");
+  console.log("🎵 Convert audio...");
 
   const bar = createProgressBar();
   bar.start(100, 0);
@@ -81,7 +87,7 @@ async function getAudio(url) {
  * Shows a progress bar during the download process.
  */
 async function getVideo(url) {
-  console.log("🎥 Downloading video...");
+  console.log("🎥 Convert video...");
 
   const bar = createProgressBar();
   bar.start(100, 0);

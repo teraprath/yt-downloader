@@ -7,7 +7,7 @@ const chalk = require("chalk");
 function createProgressBar() {
   return new cliProgress.SingleBar(
       {
-        format: `⬇️ ${chalk.green(' {bar}')} ${chalk.gray('[{percentage}%]')}`,
+        format: `⬇️ ${chalk.green(' {bar}')} ${chalk.green('[{percentage}%]')}`,
         barCompleteChar: "█",
         barIncompleteChar: "░",
         hideCursor: true,
