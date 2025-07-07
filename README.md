@@ -4,7 +4,7 @@ Convert and download YouTube Videos blazingly fast using the CLI.
 Available Formats: **MP3**, **MP4**
 
 <p align="center">
-  <img src="/assets/preview.png" />
+  <img src="/assets/preview.png" alt="preview" />
 </p>
 
 ### Usage
