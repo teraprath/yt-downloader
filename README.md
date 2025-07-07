@@ -20,4 +20,4 @@ Files will appear in your `/Downloads` folder.
 npm i -g https://github.com/teraprath/yt-downloader
 ```
 
-Make sure [Node.js](https://nodejs.org) is installed on your computer.
+Make sure <a href="https://nodejs.org" target="_blank">Node.js</a> is installed on your computer.
