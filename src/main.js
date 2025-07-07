@@ -1,28 +1,35 @@
 #!/usr/bin/env node
 
-const path = require("path");
 const { getAudio, getVideo } = require("./downloader");
+const chalk = require("chalk");
 
 const args = process.argv.slice(2);
 const command = args[0];
-const url = args[1];
+let url = args[1];
+
+// Remove accidental escape characters (e.g. \? or \= from shell)
+if (url) {
+  url = url.replace(/\\/g, "");  // removes all backslashes
+}
 
 (async () => {
   try {
     if (!command || !url) {
-      console.log("⚠️ Missing CLI arguments.");
-      console.log("Usage: ytd <audio|video> <YouTube URL>");
+      console.log("⚠️  Missing CLI arguments.\n");
+      console.log("Usage:");
+      console.log("  ytd audio <YouTube URL>   # Download as MP3");
+      console.log("  ytd video <YouTube URL>   # Download as MP4");
       return;
     }
 
-    console.log("🔗 URL:", url);
+    console.log("🔗 URL:", chalk.cyan(url));
 
     if (command === "audio") {
       await getAudio(url);
     } else if (command === "video") {
       await getVideo(url);
     } else {
-      console.error("❌ Unknown command:", command);
+      console.error(`❌ ${chalk.red("Unknown command")}: ${chalk.yellow(command)}`);
     }
 
     console.log("✅ Download completed.");

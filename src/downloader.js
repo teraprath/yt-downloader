@@ -2,23 +2,25 @@ const os = require("os");
 const path = require("path");
 const fs = require("fs");
 const { Audio, Video } = require("yt-converter");
+const { createProgressBar } = require("./progress");
+const chalk = require("chalk");
 
+// The system's default Downloads folder
 const DOWNLOAD_DIR = path.join(os.homedir(), "Downloads");
+
+// TEMP_DIR is the directory where the script is executed (where the file is downloaded)
 const TEMP_DIR = process.cwd();
 
-// Supported media formats
+// Supported file extensions that should be moved
 const MEDIA_EXTENSIONS = [".mp3", ".mp4"];
 
 /**
- * Returns all media files (mp3/mp4) in the given directory,
- * sorted by modified time (descending).
+ * Returns all .mp3 and .mp4 files in the given directory,
+ * sorted by modified time in descending order (newest first).
  */
 function getMediaFiles(dir) {
   return fs.readdirSync(dir)
-      .filter((file) => {
-        const ext = path.extname(file).toLowerCase();
-        return MEDIA_EXTENSIONS.includes(ext);
-      })
+      .filter((file) => MEDIA_EXTENSIONS.includes(path.extname(file).toLowerCase()))
       .map((name) => ({
         name,
         time: fs.statSync(path.join(dir, name)).mtime.getTime(),
@@ -28,7 +30,8 @@ function getMediaFiles(dir) {
 }
 
 /**
- * Moves all supported media files from TEMP_DIR to the system Downloads folder.
+ * Moves all valid media files (.mp3, .mp4) from the TEMP_DIR
+ * to the system's Downloads directory.
  */
 function moveMediaFiles() {
   const mediaFiles = getMediaFiles(TEMP_DIR);
@@ -43,36 +46,56 @@ function moveMediaFiles() {
 
     try {
       fs.renameSync(srcPath, destPath);
-      console.log(`✅ Moved: ${file} → Downloads`);
+      console.log(`\n✅ Moved: ${chalk.green(file)} → Downloads`);
     } catch (err) {
-      console.error(`❌ Failed to move ${file}:`, err.message);
+      console.error(`❌ Failed to move ${chalk.redBright(file)}:`, err.message);
     }
   });
 }
 
+/**
+ * Downloads audio from a given YouTube URL and moves the result to the Downloads folder.
+ * Shows a progress bar during the download process.
+ */
 async function getAudio(url) {
+  console.log("🎵 Downloading audio...");
+
+  const bar = createProgressBar();
+  bar.start(100, 0);
+
   await Audio({
     url,
     onDownloading: (d) => {
-      const percent = d.percentage.toFixed(2);
-      process.stdout.write(`\r⬇️  Downloading: ${percent}%`);
+      const percent = d.percentage ?? 0;
+      bar.update(percent);
     },
   });
 
-  console.log();
+  bar.update(100);
+  bar.stop();
   moveMediaFiles();
 }
 
+/**
+ * Downloads video from a given YouTube URL and moves the result to the Downloads folder.
+ * Shows a progress bar during the download process.
+ */
 async function getVideo(url) {
+  console.log("🎥 Downloading video...");
+
+  const bar = createProgressBar();
+  bar.start(100, 0);
+
   await Video({
     url,
     onDownloading: (d) => {
-      const percent = d.percentage.toFixed(2);
-      process.stdout.write(`\r⬇️  Downloading: ${percent}%`);
+      const percent = d.percentage ?? 0;
+      bar.update(percent);
     },
   });
 
-  console.log();
+  bar.update(100);
+  bar.stop();
   moveMediaFiles();
 }
 
