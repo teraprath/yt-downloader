@@ -46,7 +46,7 @@ function moveMediaFiles() {
 
     try {
       fs.renameSync(srcPath, destPath);
-      console.log(`\n✅ Moved: ${chalk.green(file)} → Downloads`);
+      console.log(`✅ Moved: ${chalk.green(file)} → Downloads`);
     } catch (err) {
       console.error(`❌ Failed to move ${chalk.redBright(file)}:`, err.message);
     }
