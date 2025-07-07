@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const path = require("path");
-// __dirname ist jetzt src/, daher korrekt auf downloader.js verweisen:
 const { getAudio, getVideo } = require("./downloader");
 
 const args = process.argv.slice(2);
