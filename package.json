@@ -2,15 +2,21 @@
   "name": "yt-downloader",
   "version": "1.0.0",
   "description": "YouTube to Audio/Video converter CLI tool",
-  "main": "main.js",
+  "main": "src/main.js",
   "bin": {
-    "ytd": "main.js",
-    "yt-downloader": "main.js"
+    "ytd": "src/main.js",
+    "yt-downloader": "src/main.js"
   },
   "scripts": {
     "start": "node ."
   },
-  "keywords": ["youtube", "video", "audio", "converter", "downloader"],
+  "keywords": [
+    "youtube",
+    "video",
+    "audio",
+    "converter",
+    "downloader"
+  ],
   "author": "teraprath",
   "license": "ISC",
   "type": "commonjs",
