@@ -3,6 +3,10 @@ Convert and download YouTube Videos blazingly fast using the CLI.
 <br>
 Available Formats: **MP3**, **MP4**
 
+<p align="center">
+  <img src="https://i.imgur.com/hcQiSju.png" />
+</p>
+
 ### Usage
 
 ```zsh
