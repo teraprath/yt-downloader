@@ -1,13 +1,23 @@
 # yt-downloader
-Convert YouTube Videos using the CLI.
+Convert and download YouTube Videos blazingly fast using the CLI.
 <br>
-Supported Formats: **MP3**, **MP4**
+Available Formats: **MP3**, **MP4**
+
+### Usage
 
 ```zsh
 ytd audio "https://www.youtube.com/watch?v=..."
 ```
+
 ```zsh
 ytd video "https://www.youtube.com/watch?v=..."
 ```
+Files will appear in your `/Downloads` folder.
 
-Converted files will appear in the `/Downloads` folder.
+### Installation
+
+```zsh
+npm i -g https://github.com/teraprath/yt-downloader
+```
+
+Make sure [Node.js](https://nodejs.org) is installed on your computer.
