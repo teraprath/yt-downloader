@@ -4,14 +4,14 @@
   "description": "YouTube to Audio/Video converter CLI tool",
   "main": "main.js",
   "bin": {
-    "ytd": "./main.js",
-    "yt-downloader": "./main.js"
+    "ytd": "main.js",
+    "yt-downloader": "main.js"
   },
   "scripts": {
     "start": "node ."
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["youtube", "video", "audio", "converter", "downloader"],
+  "author": "teraprath",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
