@@ -4,8 +4,7 @@ const fs = require("fs");
 const { Audio, Video } = require("yt-converter");
 
 const DOWNLOAD_DIR = path.join(os.homedir(), "Downloads");
-// Set TEMP_DIR to the project root (not src/)
-const TEMP_DIR = path.resolve(__dirname, "..");
+const TEMP_DIR = process.cwd();
 
 // Supported media formats
 const MEDIA_EXTENSIONS = [".mp3", ".mp4"];
@@ -54,18 +53,26 @@ function moveMediaFiles() {
 async function getAudio(url) {
   await Audio({
     url,
-    onDownloading: (d) => console.log(d),
+    onDownloading: (d) => {
+      const percent = d.percentage.toFixed(2);
+      process.stdout.write(`\r⬇️  Downloading: ${percent}%`);
+    },
   });
 
+  console.log();
   moveMediaFiles();
 }
 
 async function getVideo(url) {
   await Video({
     url,
-    onDownloading: (d) => console.log(d),
+    onDownloading: (d) => {
+      const percent = d.percentage.toFixed(2);
+      process.stdout.write(`\r⬇️  Downloading: ${percent}%`);
+    },
   });
 
+  console.log();
   moveMediaFiles();
 }
 
